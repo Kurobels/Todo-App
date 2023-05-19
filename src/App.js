@@ -1,11 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+
 
 const TodoListApp = () => {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState('');
   const [editingTodoIndex, setEditingTodoIndex] = useState(null);
   const [editingTodoValue, setEditingTodoValue] = useState('');
+
+  useEffect(() => {
+    const storedTodos = localStorage.getItem("todos");
+    if (storedTodos) {
+      setTodos(JSON.parse(storedTodos));
+    }
+
+    console.log("useEffect triggered");
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
 
   const handleInputChange = (event) => {
     setNewTodo(event.target.value);
